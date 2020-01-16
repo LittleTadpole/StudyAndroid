@@ -1,0 +1,128 @@
+apply plugin: 'com.android.application'
+
+Properties props = new Properties()
+props.load(new InputStreamReader(new FileInputStream(file(appConfigFile)), "utf-8"))
+
+android {
+    compileSdkVersion compile_sdk_version
+    defaultConfig {
+        //参考https://blankj.com/2016/09/21/android-keep-version-unity/
+        //https://blog.csdn.net/gao_chun/article/details/58105089
+        //如果是根build.gradle,可以直接引用,也可以采用rootProject.ext.xxx引用
+        //如果是gradle.properties,则通过project.xxx引用
+        applicationId project.applicationId
+        minSdkVersion min_sdk_version
+        targetSdkVersion target_sdk_version
+        versionCode project.version_code as int
+        versionName project.version_name
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+
+    }
+
+
+    signingConfigs {
+        sigin {
+            //设置release的签名信息
+            keyAlias props['KEY_ALIAS']
+            keyPassword props['KEY_PASSWORD']
+            storeFile file(props['KEYSTORE_FILE'])
+            storePassword props['KEYSTORE_PASSWORD']
+        }
+    }
+
+    flavorDimensions "default"
+    productFlavors {
+//        flavor.manifestPlaceholders = [
+//                BaiDu_API_KEY: project.BaiDu_API_KEY,
+//        ]
+//        flavor.buildConfigField("String", "cropNo", project.cropNo)
+        flavor.buildConfigField("String", "baseUrl", project.baseUrl)
+    }
+
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
+    }
+
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+        }
+    }
+
+    buildTypes {
+        debug {
+            signingConfig signingConfigs.sigin
+        }
+        release {
+            debuggable false
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            zipAlignEnabled true
+            signingConfig signingConfigs.sigin
+            // 自定义输出配置，这里我们加上APK版本号1.0
+            applicationVariants.all {
+                variant ->
+                    variant.outputs.all { output ->
+                        def outputFile = output.outputFile
+                        def fileName = ""
+                        if (outputFile != null && outputFile.name.endsWith('.apk')) {
+                            // 输出apk名称为例 ZDJPRO_v1.0_20170410_wandoujia.apk
+                            if (variant.buildType.name.equals('release')) {
+                                fileName = "${project.appName}_release_v${project.version_name}_${releaseTime()}.apk"
+                            } else if (variant.buildType.name.equals('debug')) {
+                                fileName = "${project.appName}_debug_v${project.version_name}_${releaseTime()}.apk"
+                            }
+                            outputFileName = fileName
+                        }
+                    }
+            }
+        }
+    }
+
+}
+
+
+static def releaseTime() {
+    return new Date().format("yyyyMMdd", TimeZone.getTimeZone("UTC"))
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    implementation 'androidx.recyclerview:recyclerview:1.2.0-alpha01'
+    implementation 'com.blankj:utilcodex:1.26.0'
+    implementation 'androidx.multidex:multidex:2.0.1'
+    implementation 'com.github.bumptech.glide:glide:4.10.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.10.0'
+    implementation 'com.squareup.retrofit2:retrofit:2.7.1'
+    implementation 'com.squareup.retrofit2:converter-gson:2.7.1'
+    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.7.1'
+    implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
+    implementation 'io.reactivex.rxjava2:rxjava:2.2.17'
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.3.1'
+    implementation 'com.squareup.retrofit2:converter-scalars:2.7.1'
+    implementation 'com.google.dagger:dagger:2.25.4'
+    annotationProcessor 'com.google.dagger:dagger-compiler:2.25.4'
+    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.0-beta11'
+    implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0'
+    implementation 'com.airbnb.android:lottie:3.3.1'
+    implementation 'com.jakewharton:butterknife:10.2.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.1'
+    implementation 'me.yokeyword:fragmentationx:1.0.2'
+    implementation 'me.yokeyword:fragmentationx-swipeback:1.0.2'
+    //leakcanary 2.0+版本,不用任何配置,引入即自动安装了
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.1'
+    implementation 'com.google.android.material:material:1.0.0'
+
+}

@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white"
+    android:focusable="true"
+    android:focusableInTouchMode="true">
+
+
+    <include layout="@layout/head" />
+
+    <ImageView
+        android:id="@+id/iv_head"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="124dp"
+        android:src="@drawable/ic_head" />
+
+
+    <TextView
+        android:id="@+id/tv_account"
+        android:layout_width="wrap_content"
+        android:layout_height="23dp"
+        android:layout_marginStart="49dp"
+        android:layout_marginTop="312dp"
+        android:drawableLeft="@drawable/ic_account"
+        android:drawablePadding="7dp"
+        android:gravity="center"
+        android:text="账号"
+        android:textColor="@color/black_3"
+        android:textSize="@dimen/text_size_17" />
+
+    <EditText
+        android:id="@+id/et_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/tv_account"
+        android:layout_marginStart="44dp"
+        android:layout_toRightOf="@id/tv_account"
+        android:background="@null"
+        android:hint="请输入账号"
+        android:lines="1"
+        android:textColorHint="@color/black_9"
+        android:textSize="@dimen/text_size_17" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/tv_account"
+        android:layout_marginEnd="37dp"
+        android:layout_marginStart="37dp"
+        android:layout_marginTop="15dp"
+        android:background="@color/blue_ff" />
+
+    <TextView
+        android:id="@+id/tv_pwd"
+        android:layout_width="wrap_content"
+        android:layout_height="23dp"
+        android:layout_below="@+id/tv_account"
+        android:layout_marginStart="49dp"
+        android:layout_marginTop="44dp"
+        android:drawableLeft="@drawable/ic_pwd"
+        android:drawablePadding="7dp"
+        android:gravity="center"
+        android:text="密码"
+        android:textColor="@color/black_3"
+        android:textSize="@dimen/text_size_17" />
+
+    <EditText
+        android:id="@+id/et_pwd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/tv_pwd"
+        android:layout_marginStart="44dp"
+        android:layout_toRightOf="@id/tv_pwd"
+        android:background="@null"
+        android:hint="请输入密码"
+        android:lines="1"
+        android:textColorHint="@color/black_9"
+        android:textSize="@dimen/text_size_17" />
+
+    <View
+        android:id="@+id/view2"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/tv_pwd"
+        android:layout_marginEnd="37dp"
+        android:layout_marginStart="37dp"
+        android:layout_marginTop="15dp"
+        android:background="@color/blue_ff" />
+
+    <TextView
+        android:id="@+id/tv_login"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_below="@id/view2"
+        android:layout_marginEnd="63dp"
+        android:layout_marginStart="63dp"
+        android:layout_marginTop="86dp"
+        android:background="@drawable/shape_bluef4_corner20"
+        android:gravity="center"
+        android:text="登录"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_size_18" />
+
+
+
+</RelativeLayout>
